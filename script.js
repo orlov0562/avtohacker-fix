@@ -38,6 +38,32 @@
             cfw_vin.parent().append(html);
         }
 
+
+
+        var ervEl = jQuery('#cfw-retail-price');
+        if (ervEl.length) {
+            var erv = +ervEl.text().replace(/[^0-9]+/g,'');
+
+            if (erv>0) {
+                var erv_25 = Math.round(erv*25/100);
+                var erv_30 = Math.round(erv*30/100);
+                var erv_35 = Math.round(erv*35/100);
+                var erv_40 = Math.round(erv*40/100);
+                var html = '';
+                html += '<div style="text-align:right; padding:3px 10px;">';
+
+                html += '<span style="display:inline-block; width: 125px; font-weight:normal; margin:0px;">35% = '+erv_35.formatMoney(0, '.', ',')+' $</span>';
+                html += '<span style="display:inline-block; width: 125px; font-weight:normal; margin:0px;">25% = '+erv_25.formatMoney(0, '.', ',')+' $</span>';
+                html += '<br>';
+                html += '<span style="display:inline-block; width: 125px; font-weight:normal; margin:0px;">40% = '+erv_40.formatMoney(0, '.', ',')+' $</span>';
+                html += '<span style="display:inline-block; width: 125px; font-weight:normal; margin:0px;">30% = '+erv_30.formatMoney(0, '.', ',')+' $</span>';
+
+                html += '</div>';
+                ervEl.parent().append(html);
+            }
+        }
+
+
         var grandTotal2El = jQuery('<div id="cfw-grand-total-2" style="font-weight:normal"></div>');
         jQuery('#cfw-grand-total').parent().append(grandTotal2El)
 
@@ -56,8 +82,8 @@
             var pensFundFee = Math.round(invoiceTotal*4/100); // 4%
             var pensFundFee2 = Math.round(invoiceTotal2*4/100); // 4%
             var extraExpenses = 1000;
-            var superTotal = Math.round(invoiceTotal + portFee + customsClearingFee + certFee + pensFundFee + extraExpenses);
-            var superTotal2 = Math.round(invoiceTotal + portFee + customsClearingFee2 + customsClearingFee2Extra + certFee + pensFundFee2 + extraExpenses);
+            var superTotal = Math.round(invoiceTotal + portFee + customsClearingFee + certFee + pensFundFee);
+            var superTotal2 = Math.round(invoiceTotal + portFee + customsClearingFee2 + customsClearingFee2Extra + certFee + pensFundFee2);
 
             var html = '';
             html +='<hr>';
@@ -69,8 +95,11 @@
             html +='<li>+ '+customsClearingFee.formatMoney(0, '.', ',')+' $ = Customs Clearing (30%)</li>';
             html +='<li>+ '+certFee.formatMoney(0, '.', ',')+' $ = Certification</li>';
             html +='<li>+ '+pensFundFee.formatMoney(0, '.', ',')+' $ = Pension Fund (4%)</li>';
-            html +='<li>+ '+extraExpenses.formatMoney(0, '.', ',')+' $ = Extra Expenses</li>';
             html +='<li style="background-color:#E0E0E0; font-weight:bold; padding:3px 5px;">SUPER TOTAL: '+superTotal.formatMoney(0, '.', ',')+' $</li>';
+            html +='<li style="color:gray; font-size:0.9em;">With Extra Reserve: '+superTotal.formatMoney(0, '.', ',')+' $ + '+extraExpenses.formatMoney(0, '.', ',')+'$';
+            html +=' = '+((superTotal + extraExpenses).formatMoney(0, '.', ','))+'$';
+            html +='</li>';
+
 
             html +='<li style="margin-top:15px;">INVOICE SUM/2 = '+invoiceTotal2.formatMoney(0, '.', ',')+' $</li>';
             html +='<li>+ '+portFee.formatMoney(0, '.', ',')+' $ = Port Fee</li>';
@@ -78,8 +107,10 @@
             html +='<li>+ '+customsClearingFee2Extra.formatMoney(0, '.', ',')+' $ = Customs Clearing Extra</li>';
             html +='<li>+ '+certFee.formatMoney(0, '.', ',')+' $ = Certification</li>';
             html +='<li>+ '+pensFundFee2.formatMoney(0, '.', ',')+' $ = Pension Fund (4%)</li>';
-            html +='<li>+ '+extraExpenses.formatMoney(0, '.', ',')+' $ = Extra Expenses</li>';
             html +='<li style="background-color:#E0E0E0; font-weight:bold; padding:3px 5px;">SUPER TOTAL: '+superTotal2.formatMoney(0, '.', ',')+' $</li>';
+            html +='<li style="color:gray; font-size:0.9em;">With Extra Reserve: '+superTotal2.formatMoney(0, '.', ',')+' $ + '+extraExpenses.formatMoney(0, '.', ',')+'$';
+            html +=' = '+((superTotal2 + extraExpenses).formatMoney(0, '.', ','))+'$';
+            html +='</li>';
 
             html +='</ul>'
             grandTotal2El.html(html);
@@ -120,12 +151,32 @@
           }
         }
 
+        descrItem = $(".lot-details-inner").find("span[data-uname='lotdetailOdometervalue']").first();
+        if (descrItem.length) {
+          var odoValue = descrItem.text().replace(/[^0-9]+/g,'');
+          var odoKm = odoValue;
+          descrItem.css('color', 'white').css('padding', '3px 5px');
+          descrItem.find('p').css('color', 'white');
+          if (descrItem.text().indexOf('mi')>0) {
+              odoKm = Math.round(odoValue*1.6);
+              descrItem.append('<div style="padding-right:15px; font-weight:normal;">'+odoKm.toLocaleString('en')+' km</div>')
+          }
+          if (odoKm > 1 && odoKm<150000) {
+              descrItem.css('background-color', 'green');
+          } else {
+              descrItem.css('background-color', 'red');
+          }
+        }
+
+
+
         var descrItems = $(".lot-details-inner > div.details");
         if (descrItems.length) {
             for (var i=0; i<descrItems.length; i++) {
                 var descrItemLabel = jQuery(descrItems[i]).find('label').first();
                 if (descrItemLabel.length) {
-                    console.log(descrItemLabel.text().trim());
+                   // console.log(descrItemLabel.text().trim());
+
                     if (descrItemLabel.text().trim() == 'Transmission:') {
                         var descrItemValue = jQuery(descrItems[i]).find('span.lot-details-desc').first();
                         if (descrItemValue.length) {
