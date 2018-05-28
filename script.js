@@ -2,8 +2,8 @@
 // @name         AvtoHacker Fix
 // @namespace    http://tampermonkey.net/
 // @version      0.1
-// @description  try to take over the world!
-// @author       You
+// @description  https://github.com/orlov0562/avtohacker-fix
+// @author       Vitaliy Orlov
 // @include      https://www.copart.com/lot/*
 // @grant        none
 
