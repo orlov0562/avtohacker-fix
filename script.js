@@ -38,13 +38,24 @@
             cfw_vin.parent().append(html);
         }
 
-
+        var titleEl = jQuery('h1.lot-vehicle-info > span.title');
+        if (titleEl.length) {
+            var title = titleEl.text().trim().replace(/^[0-9]{4}/g,'');
+            var year = +titleEl.text().trim().replace(/^([0-9]{4}).+$/g,"$1");
+            if (year>=2012 && year<=2018) {
+                titleEl.html('<span style="display:inline-block; padding:5px; background-color:green; color:white;">'+year+'</span> '+title);
+            } else {
+                titleEl.html('<span style="display:inline-block; padding:5px; background-color:red; color:white;">'+year+'</span> '+title);
+            }
+        }
 
         var ervEl = jQuery('#cfw-retail-price');
         if (ervEl.length) {
             var erv = +ervEl.text().replace(/[^0-9]+/g,'');
 
             if (erv>0) {
+                var erv_15 = Math.round(erv*15/100);
+                var erv_20 = Math.round(erv*20/100);
                 var erv_25 = Math.round(erv*25/100);
                 var erv_30 = Math.round(erv*30/100);
                 var erv_35 = Math.round(erv*35/100);
@@ -54,9 +65,11 @@
 
                 html += '<span style="display:inline-block; width: 125px; font-weight:normal; margin:0px;">35% = '+erv_35.formatMoney(0, '.', ',')+' $</span>';
                 html += '<span style="display:inline-block; width: 125px; font-weight:normal; margin:0px;">25% = '+erv_25.formatMoney(0, '.', ',')+' $</span>';
+                html += '<span style="display:inline-block; width: 125px; font-weight:normal; margin:0px;">15% = '+erv_15.formatMoney(0, '.', ',')+' $</span>';
                 html += '<br>';
                 html += '<span style="display:inline-block; width: 125px; font-weight:normal; margin:0px;">40% = '+erv_40.formatMoney(0, '.', ',')+' $</span>';
                 html += '<span style="display:inline-block; width: 125px; font-weight:normal; margin:0px;">30% = '+erv_30.formatMoney(0, '.', ',')+' $</span>';
+                html += '<span style="display:inline-block; width: 125px; font-weight:normal; margin:0px;">20% = '+erv_20.formatMoney(0, '.', ',')+' $</span>';
 
                 html += '</div>';
                 ervEl.parent().append(html);
@@ -205,9 +218,8 @@
                     if (descrItemLabel.text().trim()  == 'Sale Date:') {
                         var descrItemValue = jQuery(descrItems[i]).find('span').first();
                         if (descrItemValue.length) {
-                            descrItemValue.css('color', 'white').css('padding', '3px 5px');
                             if (descrItemValue.text().trim() == 'Future') {
-                                descrItemValue.css('background-color', 'red');
+                                descrItemValue.css('color', 'white').css('padding', '3px 5px').css('background-color', 'red');
                                 jQuery('div.bid-info-header').append('<div style="background-color:red; padding:5px; color:white; text-align: center; font-weight:bold;"> !!! = FUTURE AUCTION = !!! </div>');
                             }
                         }
