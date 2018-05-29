@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         AvtoHacker Fix
-// @namespace    http://tampermonkey.net/
+// @namespace    https://github.com/orlov0562/avtohacker-fix/
 // @version      0.1
 // @description  https://github.com/orlov0562/avtohacker-fix
 // @author       Vitaliy Orlov
