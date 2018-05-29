@@ -91,7 +91,7 @@
                 var descrItemLabel = jQuery(descrItems[i]).find('label').first();
                 if (descrItemLabel.length) {
 
-                    // console.log(descrItemLabel.text().trim());
+                    console.log(descrItemLabel.text().trim());
 
                     var descrItemLabelText = descrItemLabel.text().trim();
                     var descrItemValue = '';
@@ -105,6 +105,22 @@
                             }
                         break;
                         case 'Current Bid:':
+                            if (erv > 0)  {
+                                descrItemValue = jQuery(descrItems[i]).find('span').first();
+                                if (descrItemValue.length) {
+                                    var currentBid = +descrItemValue.text().replace(/[^0-9]+/g,'');
+                                    if (currentBid > 0) {
+                                        var erv_cb = Math.round(currentBid*100/erv);
+                                        if (erv_cb>30) {
+                                           descrItemValue.append(' &nbsp; <span style="display:inline-block; background-color:red; color:white; padding:0 3px;">'+erv_cb+'%</span>');
+                                        } else {
+                                           descrItemValue.append(' &nbsp; <span style="display:inline-block; background-color:green; color:white; padding:0 3px;">'+erv_cb+'%</span>');
+                                        }
+                                    }
+                                }
+                            }
+                        break;
+                        case 'Sale Price:':
                             if (erv > 0)  {
                                 descrItemValue = jQuery(descrItems[i]).find('span').first();
                                 if (descrItemValue.length) {
@@ -261,5 +277,9 @@
               descrItem.css('background-color', 'red');
           }
         }
+
+
+
+
     }, 5000);
 })();
