@@ -49,9 +49,10 @@
             }
         }
 
+        var erv = 0;
         var ervEl = jQuery('#cfw-retail-price');
         if (ervEl.length) {
-            var erv = +ervEl.text().replace(/[^0-9]+/g,'');
+            erv = +ervEl.text().replace(/[^0-9]+/g,'');
 
             if (erv>0) {
                 var erv_15 = Math.round(erv*15/100);
@@ -76,59 +77,139 @@
             }
         }
 
+        var brokerFee = 500;
+        var portFee = 400;
+        var customsClearingFee2Extra = 150;
+        var certFee = 300;
+        var extraExpenses = 1000;
+        var brokerFeeCorrection = brokerFee;
+        var transactionFee = 0;
+
+        var descrItems = $(".lot-details-inner div.details");
+        if (descrItems.length) {
+            for (var i=0; i<descrItems.length; i++) {
+                var descrItemLabel = jQuery(descrItems[i]).find('label').first();
+                if (descrItemLabel.length) {
+
+                    // console.log(descrItemLabel.text().trim());
+
+                    var descrItemLabelText = descrItemLabel.text().trim();
+                    var descrItemValue = '';
+
+                    switch(descrItemLabelText) {
+                        case 'Transaction Fee:':
+                            descrItemValue = jQuery(descrItems[i]).find('span').first();
+                            if (descrItemValue.length) {
+                                transactionFee = +descrItemValue.text().replace(/[^0-9]+/g,'');
+                                brokerFeeCorrection = brokerFee - transactionFee;
+                            }
+                        break;
+                        case 'Current Bid:':
+                            if (erv > 0)  {
+                                descrItemValue = jQuery(descrItems[i]).find('span').first();
+                                if (descrItemValue.length) {
+                                    var currentBid = +descrItemValue.text().replace(/[^0-9]+/g,'');
+                                    if (currentBid > 0) {
+                                        var erv_cb = Math.round(currentBid*100/erv);
+                                        if (erv_cb>30) {
+                                           descrItemValue.append(' &nbsp; <span style="display:inline-block; background-color:red; color:white; padding:0 3px;">'+erv_cb+'%</span>');
+                                        } else {
+                                           descrItemValue.append(' &nbsp; <span style="display:inline-block; background-color:green; color:white; padding:0 3px;">'+erv_cb+'%</span>');
+                                        }
+                                    }
+                                }
+                            }
+                        break;
+                        case 'Transmission:':
+                            descrItemValue = jQuery(descrItems[i]).find('span.lot-details-desc').first();
+                            if (descrItemValue.length) {
+                                descrItemValue.css('color', 'white').css('padding', '3px 5px');
+                                if (descrItemValue.text() == 'AUTOMATIC') {
+                                    descrItemValue.css('background-color', 'green');
+                                } else {
+                                    descrItemValue.css('background-color', 'red');
+                                }
+                            }
+                        break;
+
+                        case 'Engine Type:':
+                            descrItemValue = jQuery(descrItems[i]).find('span').first();
+                            if (descrItemValue.length) {
+                                descrItemValue.css('color', 'white').css('padding', '3px 5px');
+                                var engineVol = parseFloat(descrItemValue.text().trim().replace(/\s.+$/g,'').replace(/[^0-9.,]+/g,'').replace(',','.'))*1000;
+                                if ( engineVol > 1800 && engineVol <= 3000) {
+                                    descrItemValue.css('background-color', 'green');
+                                } else {
+                                    descrItemValue.css('background-color', 'red');
+                                }
+                            }
+                        break;
+                        case 'Sale Date:':
+                            descrItemValue = jQuery(descrItems[i]).find('span').first();
+                            if (descrItemValue.length) {
+                                if (descrItemValue.text().trim() == 'Future') {
+                                    descrItemValue.css('color', 'white').css('padding', '3px 5px').css('background-color', 'red');
+                                    jQuery('div.bid-info-header').append('<div style="background-color:red; padding:5px; color:white; text-align: center; font-weight:bold;"> !!! = FUTURE AUCTION = !!! </div>');
+                                }
+                            }
+                            break;
+                    }
+                }
+            }
+        }
+
+
 
         var grandTotal2El = jQuery('<div id="cfw-grand-total-2" style="font-weight:normal"></div>');
         jQuery('#cfw-grand-total').parent().append(grandTotal2El)
 
-        jQuery('#cfw-current-bid').on('keyup keypress blur change', function(){
-
+        var superTotalRecalc = function(){
+            grandTotal2El.html('calculating..');
             setTimeout(function(){
-            var grandTotal = +jQuery('#cfw-grand-total').text().replace( /[^0-9]+/g, '');
-            var brokerFee = 500;
-            var invoiceTotal = grandTotal + brokerFee;
-            var invoiceTotal2 = Math.round((grandTotal + brokerFee) / 2);
-            var portFee = 400;
-            var customsClearingFee = Math.round(invoiceTotal*30/100); // 30% from invoice
-            var customsClearingFee2 = Math.round(invoiceTotal2*30/100); // 30% from invoice
-            var customsClearingFee2Extra = 150;
-            var certFee = 300;
-            var pensFundFee = Math.round(invoiceTotal*4/100); // 4%
-            var pensFundFee2 = Math.round(invoiceTotal2*4/100); // 4%
-            var extraExpenses = 1000;
-            var superTotal = Math.round(invoiceTotal + portFee + customsClearingFee + certFee + pensFundFee);
-            var superTotal2 = Math.round(invoiceTotal + portFee + customsClearingFee2 + customsClearingFee2Extra + certFee + pensFundFee2);
+                var grandTotal = +jQuery('#cfw-grand-total').text().replace( /[^0-9]+/g, '');
+                var invoiceTotal = grandTotal + brokerFeeCorrection;
+                var invoiceTotal2 = Math.round((grandTotal + brokerFeeCorrection) / 2);
+                var customsClearingFee = Math.round(invoiceTotal*30/100); // 30% from invoice
+                var customsClearingFee2 = Math.round(invoiceTotal2*30/100); // 30% from invoice
+                var pensFundFee = Math.round(invoiceTotal*4/100); // 4%
+                var pensFundFee2 = Math.round(invoiceTotal2*4/100); // 4%
+                var superTotal = Math.round(invoiceTotal + portFee + customsClearingFee + certFee + pensFundFee);
+                var superTotal2 = Math.round(invoiceTotal + portFee + customsClearingFee2 + customsClearingFee2Extra + certFee + pensFundFee2);
 
-            var html = '';
-            html +='<hr>';
-            html +='<ul>';
-            html +='<li>+ '+brokerFee.formatMoney(0, '.', ',')+' $ = Broker Fee</li>';
+                var html = '';
+                html +='<hr>';
+                html +='<ul>';
+                html +='<li>+ '+brokerFeeCorrection.formatMoney(0, '.', ',')+' $ = Broker Fee ( '+brokerFee+'$ - '+transactionFee+'$ )</li>';
 
-            html +='<li style="margin-top:15px;">INVOICE SUM = '+invoiceTotal.formatMoney(0, '.', ',')+' $</li>';
-            html +='<li>+ '+portFee.formatMoney(0, '.', ',')+' $ = Port Fee</li>';
-            html +='<li>+ '+customsClearingFee.formatMoney(0, '.', ',')+' $ = Customs Clearing (30%)</li>';
-            html +='<li>+ '+certFee.formatMoney(0, '.', ',')+' $ = Certification</li>';
-            html +='<li>+ '+pensFundFee.formatMoney(0, '.', ',')+' $ = Pension Fund (4%)</li>';
-            html +='<li style="background-color:#E0E0E0; font-weight:bold; padding:3px 5px;">SUPER TOTAL: '+superTotal.formatMoney(0, '.', ',')+' $</li>';
-            html +='<li style="color:gray; font-size:0.9em;">With Extra Reserve: '+superTotal.formatMoney(0, '.', ',')+' $ + '+extraExpenses.formatMoney(0, '.', ',')+'$';
-            html +=' = '+((superTotal + extraExpenses).formatMoney(0, '.', ','))+'$';
-            html +='</li>';
+                html +='<li style="margin-top:15px;">INVOICE SUM = '+invoiceTotal.formatMoney(0, '.', ',')+' $</li>';
+                html +='<li>+ '+portFee.formatMoney(0, '.', ',')+' $ = Port Fee</li>';
+                html +='<li>+ '+customsClearingFee.formatMoney(0, '.', ',')+' $ = Customs Clearing (30%)</li>';
+                html +='<li>+ '+certFee.formatMoney(0, '.', ',')+' $ = Certification</li>';
+                html +='<li>+ '+pensFundFee.formatMoney(0, '.', ',')+' $ = Pension Fund (4%)</li>';
+                html +='<li style="background-color:#E0E0E0; font-weight:bold; padding:3px 5px;">SUPER TOTAL: '+superTotal.formatMoney(0, '.', ',')+' $</li>';
+                html +='<li style="color:gray; font-size:0.9em;">With Extra Reserve: '+superTotal.formatMoney(0, '.', ',')+' $ + '+extraExpenses.formatMoney(0, '.', ',')+'$';
+                html +=' = '+((superTotal + extraExpenses).formatMoney(0, '.', ','))+'$';
+                html +='</li>';
 
+                html +='<li style="margin-top:15px;">INVOICE SUM/2 = '+invoiceTotal2.formatMoney(0, '.', ',')+' $</li>';
+                html +='<li>+ '+portFee.formatMoney(0, '.', ',')+' $ = Port Fee</li>';
+                html +='<li>+ '+customsClearingFee2.formatMoney(0, '.', ',')+' $ = Customs Clearing (30%)</li>';
+                html +='<li>+ '+customsClearingFee2Extra.formatMoney(0, '.', ',')+' $ = Customs Clearing Extra</li>';
+                html +='<li>+ '+certFee.formatMoney(0, '.', ',')+' $ = Certification</li>';
+                html +='<li>+ '+pensFundFee2.formatMoney(0, '.', ',')+' $ = Pension Fund (4%)</li>';
+                html +='<li style="background-color:#E0E0E0; font-weight:bold; padding:3px 5px;">SUPER TOTAL: '+superTotal2.formatMoney(0, '.', ',')+' $</li>';
+                html +='<li style="color:gray; font-size:0.9em;">With Extra Reserve: '+superTotal2.formatMoney(0, '.', ',')+' $ + '+extraExpenses.formatMoney(0, '.', ',')+'$';
+                html +=' = '+((superTotal2 + extraExpenses).formatMoney(0, '.', ','))+'$';
+                html +='</li>';
 
-            html +='<li style="margin-top:15px;">INVOICE SUM/2 = '+invoiceTotal2.formatMoney(0, '.', ',')+' $</li>';
-            html +='<li>+ '+portFee.formatMoney(0, '.', ',')+' $ = Port Fee</li>';
-            html +='<li>+ '+customsClearingFee2.formatMoney(0, '.', ',')+' $ = Customs Clearing (30%)</li>';
-            html +='<li>+ '+customsClearingFee2Extra.formatMoney(0, '.', ',')+' $ = Customs Clearing Extra</li>';
-            html +='<li>+ '+certFee.formatMoney(0, '.', ',')+' $ = Certification</li>';
-            html +='<li>+ '+pensFundFee2.formatMoney(0, '.', ',')+' $ = Pension Fund (4%)</li>';
-            html +='<li style="background-color:#E0E0E0; font-weight:bold; padding:3px 5px;">SUPER TOTAL: '+superTotal2.formatMoney(0, '.', ',')+' $</li>';
-            html +='<li style="color:gray; font-size:0.9em;">With Extra Reserve: '+superTotal2.formatMoney(0, '.', ',')+' $ + '+extraExpenses.formatMoney(0, '.', ',')+'$';
-            html +=' = '+((superTotal2 + extraExpenses).formatMoney(0, '.', ','))+'$';
-            html +='</li>';
-
-            html +='</ul>'
-            grandTotal2El.html(html);
+                html +='</ul>'
+                grandTotal2El.html(html);
             }, 1000);
-        });
+        };
+
+        jQuery('#cfw-current-bid').on('keyup keypress blur change', superTotalRecalc);
+        jQuery('#cfw-land-select').on('keyup keypress blur change', superTotalRecalc);
+        jQuery('#cfw-world-select').on('keyup keypress blur change', superTotalRecalc);
 
         jQuery('#cfw-current-bid').trigger("change");
 
@@ -180,54 +261,5 @@
               descrItem.css('background-color', 'red');
           }
         }
-
-
-
-        var descrItems = $(".lot-details-inner > div.details");
-        if (descrItems.length) {
-            for (var i=0; i<descrItems.length; i++) {
-                var descrItemLabel = jQuery(descrItems[i]).find('label').first();
-                if (descrItemLabel.length) {
-                   // console.log(descrItemLabel.text().trim());
-
-                    if (descrItemLabel.text().trim() == 'Transmission:') {
-                        var descrItemValue = jQuery(descrItems[i]).find('span.lot-details-desc').first();
-                        if (descrItemValue.length) {
-                            descrItemValue.css('color', 'white').css('padding', '3px 5px');
-                            if (descrItemValue.text() == 'AUTOMATIC') {
-                                descrItemValue.css('background-color', 'green');
-                            } else {
-                                descrItemValue.css('background-color', 'red');
-                            }
-                        }
-                    }
-
-                    if (descrItemLabel.text().trim()  == 'Engine Type:') {
-                        var descrItemValue = jQuery(descrItems[i]).find('span').first();
-                        if (descrItemValue.length) {
-                            descrItemValue.css('color', 'white').css('padding', '3px 5px');
-                            var engineVol = parseFloat(descrItemValue.text().trim().replace(/\s.+$/g,'').replace(/[^0-9.,]+/g,'').replace(',','.'))*1000;
-                            if ( engineVol > 1800 && engineVol <= 3000) {
-                                descrItemValue.css('background-color', 'green');
-                            } else {
-                                descrItemValue.css('background-color', 'red');
-                            }
-                        }
-                    }
-
-                    if (descrItemLabel.text().trim()  == 'Sale Date:') {
-                        var descrItemValue = jQuery(descrItems[i]).find('span').first();
-                        if (descrItemValue.length) {
-                            if (descrItemValue.text().trim() == 'Future') {
-                                descrItemValue.css('color', 'white').css('padding', '3px 5px').css('background-color', 'red');
-                                jQuery('div.bid-info-header').append('<div style="background-color:red; padding:5px; color:white; text-align: center; font-weight:bold;"> !!! = FUTURE AUCTION = !!! </div>');
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-
     }, 5000);
 })();
