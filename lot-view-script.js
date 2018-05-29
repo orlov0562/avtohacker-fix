@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         AvtoHacker Fix
-// @namespace    https://github.com/orlov0562/avtohacker-fix/
+// @namespace    http://tampermonkey.net/
 // @version      0.1
 // @description  https://github.com/orlov0562/avtohacker-fix
 // @author       Vitaliy Orlov
@@ -30,9 +30,11 @@
             var html = '';
             html += '<div style="padding: 5px 10px; text-align:right;">';
             html += '&#x1F5D7; <a href="https://www.copart.com/g2mext/autocheck/'+vin+'" target="_blank">AutoCheck</a>';
-            html += ' &nbsp; | &nbsp; ';
+            html += ' | ';
+            html += '&#x1F5D7; <a href="https://trackmyvin.com/en/vin-check?vin='+vin+'" target="_blank">TrackMyVin</a>';
+            html += ' | ';
             html += '&#x1F5D7; <a href="https://www.google.com/search?q=copart+'+vin+'" target="_blank">Google</a>';
-            html += ' &nbsp; | &nbsp; ';
+            html += ' | ';
             html += '&#x1F5D7; <a href="https://www.google.com/search?newwindow=1&hl=en&biw=1920&bih=1080&tbm=isch&sa=1&ei=xEIMW62BLoSosgHVwo7YBQ&q=copart+%20+'+vin+'" target="_blank">Google Images</a>';
             html += '</div>';
             cfw_vin.parent().append(html);
