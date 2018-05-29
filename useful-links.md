@@ -11,6 +11,9 @@ Catalogs
 Price History
 - [https://www.salvageautosauction.com/price_history](https://www.salvageautosauction.com/price_history)
 
+Check
+- [https://www.copart.com/g2mext/autocheck/](https://www.copart.com/g2mext/autocheck/)
+
 Delivery from auctions
 - [https://www.easyhaul.com](https://www.easyhaul.com)
 - [https://www.haulmatch.com](https://www.haulmatch.com)
