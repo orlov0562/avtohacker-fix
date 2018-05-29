@@ -20,7 +20,7 @@ Delivery from auctions
 - [https://www.easyhaul.com](https://www.easyhaul.com)
 - [https://www.haulmatch.com](https://www.haulmatch.com)
 
-Experience from clients
+Experience from buyers
 - [UaCustom (Ford, горький опыт)](https://www.youtube.com/channel/UC_XAqfVlDDqnTHxfSKSgaRg/videos)
 - [Пригон авто из США (Lexus, горький опыт)](https://www.drive2.ru/l/487295308166857235/)
 - [Cars from West Youtube](https://www.youtube.com/channel/UCf7O2HFJfH3LStHbq7_2UoA)
