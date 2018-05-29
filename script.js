@@ -128,9 +128,9 @@
                                     if (currentBid > 0) {
                                         var erv_cb = Math.round(currentBid*100/erv);
                                         if (erv_cb>30) {
-                                           descrItemValue.append(' &nbsp; <span style="display:inline-block; background-color:red; color:white; padding:0 3px;">'+erv_cb+'%</span>');
+                                           descrItemValue.append(' &nbsp; <span style="display:inline-block; background-color:red; color:white; padding:0 3px; margin-right:0px;">'+erv_cb+'%</span>');
                                         } else {
-                                           descrItemValue.append(' &nbsp; <span style="display:inline-block; background-color:green; color:white; padding:0 3px;">'+erv_cb+'%</span>');
+                                           descrItemValue.append(' &nbsp; <span style="display:inline-block; background-color:green; color:white; padding:0 3px; margin-right:0px;">'+erv_cb+'%</span>');
                                         }
                                     }
                                 }
