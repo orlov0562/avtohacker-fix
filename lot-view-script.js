@@ -33,9 +33,14 @@
             html += ' | ';
             html += '&#x1F5D7; <a href="https://trackmyvin.com/en/vin-check?vin='+vin+'" target="_blank">TrackMyVin</a>';
             html += ' | ';
-            html += '&#x1F5D7; <a href="https://www.google.com/search?q=copart+'+vin+'" target="_blank">Google</a>';
+            html += '&#x1F5D7; <a href="https://www.vehiclehistory.com/paging-vin-report-data/new-report-wva.php?vin='+vin+'" target="_blank">Vehicle History</a>';
+            html += '<br>';
+            html += '<strong>Google:</strong> &nbsp;';
+            html += '&#x1F5D7; <a href="https://www.google.com/search?q=copart+'+vin+'" target="_blank">All</a>';
             html += ' | ';
-            html += '&#x1F5D7; <a href="https://www.google.com/search?newwindow=1&hl=en&biw=1920&bih=1080&tbm=isch&sa=1&ei=xEIMW62BLoSosgHVwo7YBQ&q=copart+%20+'+vin+'" target="_blank">Google Images</a>';
+            html += '&#x1F5D7; <a href="https://www.google.com/search?q=inurl%3A'+vin+'" target="_blank">In url</a>';
+            html += ' | ';
+            html += '&#x1F5D7; <a href="https://www.google.com/search?newwindow=1&hl=en&biw=1920&bih=1080&tbm=isch&sa=1&ei=xEIMW62BLoSosgHVwo7YBQ&q=copart+'+vin+'" target="_blank">Images</a>';
             html += '</div>';
             cfw_vin.parent().append(html);
         }
