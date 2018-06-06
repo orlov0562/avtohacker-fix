@@ -23,24 +23,61 @@
         return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
     };
 
+    var additionalCss = '';
+    additionalCss += '<style type="text/css">';
+
+    additionalCss += ' .ahf_redbox {background-color:red; color:white;}';
+    additionalCss += ' .ahf_orangebox {background-color:#ff8400; color:black;}';
+    additionalCss += ' .ahf_greenbox {background-color:green; color:white;}';
+    additionalCss += ' .ahf_bluebox {background-color:#00ceff; color:white;}';
+    additionalCss += ' .ahf_redbox a, .ahf_greenbox a, .ahf_bluebox a {color:white; opacity:0.5;}';
+    additionalCss += ' .ahf_redbox a:hover, .ahf_greenbox a:hover, .ahf_bluebox a:hover {color:yellow; opacity:1;}';
+
+    additionalCss += ' .ahf_redbox_p35 {display:inline-block; background-color:red; color:white; padding: 3px 5px !important;}';
+    additionalCss += ' .ahf_orangebox_p35 {display:inline-block; background-color:#ff8400; color:black; padding: 3px 5px !important;}';
+    additionalCss += ' .ahf_greenbox_p35 {display:inline-block; background-color:green; color:white; padding: 3px 5px !important;}';
+    additionalCss += ' .ahf_bluebox_p35 {display:inline-block; background-color:#00ceff; color:white; padding: 3px 5px !important;}';
+    additionalCss += ' .ahf_redbox_p35 a, .ahf_greenbox_p35 a, .ahf_bluebox_p35 a {color:white; opacity:0.5;}';
+    additionalCss += ' .ahf_redbox_p35 a:hover, .ahf_greenbox_p35 a:hover, .ahf_bluebox_p35 a:hover {color:yellow; opacity:1;}';
+
+    additionalCss += ' .ahf_redbox_p03 {display:inline-block; background-color:red; color:white; padding: 0px 3px !important;}';
+    additionalCss += ' .ahf_orangebox_p03 {display:inline-block; background-color:#ff8400; color:black; padding: 0px 3px !important;}';
+    additionalCss += ' .ahf_greenbox_p03 {display:inline-block; background-color:green; color:white; padding: 0px 3px !important;}';
+    additionalCss += ' .ahf_bluebox_p03 {display:inline-block; background-color:#00ceff; color:white; padding: 0px 3px !important;}';
+    additionalCss += ' .ahf_redbox_p03 a, .ahf_greenbox_p03 a, .ahf_bluebox_p03 a {color:white; opacity:0.5;}';
+    additionalCss += ' .ahf_redbox_p03 a:hover, .ahf_greenbox_p03 a:hover, .ahf_bluebox_p03 a:hover {color:yellow; opacity:1;}';
+
+    additionalCss += ' .ahf_erv_perc_item {display:inline-block; width: 125px; font-weight:normal; margin:0px;}';
+
+    additionalCss += ' @keyframes ahf_blink { from { opacity: 1.0; } 50% { opacity: 0.5; } to { opacity: 1; }}';
+    additionalCss += ' @-webkit-keyframes ahf_blink { from { opacity: 1.0; } 50% { opacity: 0.5; } to { opacity: 1; }}';
+    additionalCss += ' .ahf_blink {animation:ahf_blink 1000ms infinite; -webkit-animation:ahf_blink 1000ms infinite;}';
+
+    additionalCss += '</style>';
+    jQuery(additionalCss).appendTo("head");
+
     setTimeout(function(){
         var cfw_vin = jQuery('#cfw-vin');
         if (cfw_vin.length) {
-            var vin = cfw_vin.text();
+            var vin = cfw_vin.text().trim();
             var html = '';
             html += '<div style="padding: 5px 10px; text-align:right;">';
-            html += '&#x1F5D7; <a href="https://www.copart.com/g2mext/autocheck/'+vin+'" target="_blank">AutoCheck</a>';
-            html += ' | ';
-            html += '&#x1F5D7; <a href="https://trackmyvin.com/en/vin-check?vin='+vin+'" target="_blank">TrackMyVin</a>';
-            html += ' | ';
-            html += '&#x1F5D7; <a href="https://www.vehiclehistory.com/paging-vin-report-data/new-report-wva.php?vin='+vin+'" target="_blank">Vehicle History</a>';
-            html += '<br>';
-            html += '<strong>Google:</strong> &nbsp;';
-            html += '&#x1F5D7; <a href="https://www.google.com/search?q=copart+'+vin+'" target="_blank">All</a>';
-            html += ' | ';
-            html += '&#x1F5D7; <a href="https://www.google.com/search?q=inurl%3A'+vin+'" target="_blank">In url</a>';
-            html += ' | ';
-            html += '&#x1F5D7; <a href="https://www.google.com/search?newwindow=1&hl=en&biw=1920&bih=1080&tbm=isch&sa=1&ei=xEIMW62BLoSosgHVwo7YBQ&q=copart+'+vin+'" target="_blank">Images</a>';
+            if (vin!='') {
+                html += '&#x1F5D7; <a href="https://www.copart.com/g2mext/autocheck/'+vin+'" target="_blank">AutoCheck</a>';
+                html += ' | ';
+                html += '&#x1F5D7; <a href="https://trackmyvin.com/en/vin-check?vin='+vin+'" target="_blank">TrackMyVin</a>';
+                html += ' | ';
+                html += '&#x1F5D7; <a href="https://www.vehiclehistory.com/paging-vin-report-data/new-report-wva.php?vin='+vin+'" target="_blank">Vehicle History</a>';
+                html += '<br>';
+                html += '<strong>Google:</strong> &nbsp;';
+                html += '&#x1F5D7; <a href="https://www.google.com/search?q=copart+'+vin+'" target="_blank">All</a>';
+                html += ' | ';
+                html += '&#x1F5D7; <a href="https://www.google.com/search?q=inurl%3A'+vin+'" target="_blank">In url</a>';
+                html += ' | ';
+                html += '&#x1F5D7; <a href="https://www.google.com/search?newwindow=1&hl=en&biw=1920&bih=1080&tbm=isch&sa=1&ei=xEIMW62BLoSosgHVwo7YBQ&q=copart+'+vin+'" target="_blank">Images</a>';
+            } else {
+                html += '<small>Please <a href="#" onclick="location.reload(); return false;">update the page</a> to reparse VIN info<small>';
+            }
             html += '</div>';
             cfw_vin.parent().append(html);
         }
@@ -49,10 +86,10 @@
         if (titleEl.length) {
             var title = titleEl.text().trim().replace(/^[0-9]{4}/g,'');
             var year = +titleEl.text().trim().replace(/^([0-9]{4}).+$/g,"$1");
-            if (year>=2012 && year<=2018) {
-                titleEl.html('<span style="display:inline-block; padding:5px; background-color:green; color:white;">'+year+'</span> '+title);
+            if (year>=2011 && year<=2018) {
+                titleEl.html('<span class="ahf_greenbox_p35">'+year+'</span> '+title);
             } else {
-                titleEl.html('<span style="display:inline-block; padding:5px; background-color:red; color:white;">'+year+'</span> '+title);
+                titleEl.html('<span class="ahf_redbox_p35">'+year+'</span> '+title);
             }
         }
 
@@ -70,27 +107,53 @@
                 var erv_40 = Math.round(erv*40/100);
                 var html = '';
                 html += '<div style="text-align:right; padding:3px 10px;">';
-
-                html += '<span style="display:inline-block; width: 125px; font-weight:normal; margin:0px;">35% = '+erv_35.formatMoney(0, '.', ',')+' $</span>';
-                html += '<span style="display:inline-block; width: 125px; font-weight:normal; margin:0px;">25% = '+erv_25.formatMoney(0, '.', ',')+' $</span>';
-                html += '<span style="display:inline-block; width: 125px; font-weight:normal; margin:0px;">15% = '+erv_15.formatMoney(0, '.', ',')+' $</span>';
+                html += '<span class="ahf_erv_perc_item">35% = '+erv_35.formatMoney(0, '.', ',')+' $</span>';
+                html += '<span class="ahf_erv_perc_item">25% = '+erv_25.formatMoney(0, '.', ',')+' $</span>';
+                html += '<span class="ahf_erv_perc_item">15% = '+erv_15.formatMoney(0, '.', ',')+' $</span>';
                 html += '<br>';
-                html += '<span style="display:inline-block; width: 125px; font-weight:normal; margin:0px;">40% = '+erv_40.formatMoney(0, '.', ',')+' $</span>';
-                html += '<span style="display:inline-block; width: 125px; font-weight:normal; margin:0px;">30% = '+erv_30.formatMoney(0, '.', ',')+' $</span>';
-                html += '<span style="display:inline-block; width: 125px; font-weight:normal; margin:0px;">20% = '+erv_20.formatMoney(0, '.', ',')+' $</span>';
-
+                html += '<span class="ahf_erv_perc_item">40% = '+erv_40.formatMoney(0, '.', ',')+' $</span>';
+                html += '<span class="ahf_erv_perc_item">30% = '+erv_30.formatMoney(0, '.', ',')+' $</span>';
+                html += '<span class="ahf_erv_perc_item">20% = '+erv_20.formatMoney(0, '.', ',')+' $</span>';
                 html += '</div>';
                 ervEl.parent().append(html);
             }
         }
 
-        var brokerFee = 500;
+        var goodDocTypes = [ // Possible values: titles
+            'CERTIFICATE OF TITLE',
+            'CLEAN TITLE',
+            'SALVAGE TITLE',
+            'MV-907A SALVAGE CERTIFICATE',
+            'CERT OF TITLE-SALVAGE TITLE',
+            'DEALER ONLY CLEAN TITLE'
+        ];
+        var docTypeState = 'N/A';
+
+        var goodTransmissions = ['AUTOMATIC']; // Possible values: AUTOMATIC; MANUAL;
+        var goodWheelDrives = ['All wheel drive']; // Possible values: All wheel drive; Front-wheel Drive;
+        var goodFuels = ['GAS', 'DIESEL']; // Possible values: GAS; DIESEL
+
+        const BROKER_FEE_CALC_TYPE_DEFAULT = 'default';
+        const BROKER_FEE_CALC_TYPE_PARTNER = 'partner';
+        const BROKER_FEE_CALC_TYPE_EXTERNAL = 'external';
+
+        var brokerFeeCalcType = BROKER_FEE_CALC_TYPE_DEFAULT; // Possible values: BROKER_FEE_CALC_TYPE_DEFAULT; BROKER_FEE_CALC_TYPE_PARTNER; BROKER_FEE_CALC_TYPE_EXTERNAL
+        var partnerBrokerFixedFee = 200;
+        var partnerBrokerStates = ['AL','WI','MI']; // Possible values: <States Abbreviation>
+        var externalBrokerFixedFee = 500;
+
+        var brokerFeeCorrection = 0;
+        var transactionFee = 0;
+
         var portFee = 400;
         var customsClearingFee2Extra = 150;
         var certFee = 300;
         var extraExpenses = 1000;
-        var brokerFeeCorrection = brokerFee;
-        var transactionFee = 0;
+
+        var odometrHLLimit_1 = 100000;
+        var odometrHLLimit_2 = 150000;
+
+
 
         var descrItems = $(".lot-details-inner div.details");
         if (descrItems.length) {
@@ -104,11 +167,78 @@
                     var descrItemValue = '';
 
                     switch(descrItemLabelText) {
+                        case 'Doc Type:':
+                            descrItemValue = jQuery(descrItems[i]).find('span').first().find('p').first();
+                            if (descrItemValue.length) {
+                                docTypeState = descrItemValue.text().replace("\n",' ').trim().replace(/^([^-]+)-.+$/g,'$1').trim();
+                                var docType = descrItemValue.text().replace("\n",' ').trim().replace(/^[^-]+-(.+)$/g,'$1').trim();
+
+                                var html = '';
+
+                                if (jQuery.inArray(docType, goodDocTypes) > -1) {
+                                    html += '<span style="margin:0px;" class="ahf_greenbox_p03">'+docType+'</span>';
+                                } else {
+                                    html += '<span style="margin:0px;" class="ahf_redbox_p03">'+docType+'</span>';
+                                }
+
+                                if (brokerFeeCalcType == BROKER_FEE_CALC_TYPE_EXTERNAL) {
+                                    html += '<span style="margin:0px;  border-right:1px solid white;" class="ahf_greenbox_p03" id="ahf_doctype_state">'+docTypeState+'</span>';
+                                } else {
+                                    if (jQuery.inArray(docTypeState, partnerBrokerStates) > -1) {
+                                        html += '<span style="margin:0px;  border-right:1px solid white;" class="ahf_orangebox_p03" id="ahf_doctype_state">'+docTypeState+'</span>';
+                                        brokerFeeCalcType = BROKER_FEE_CALC_TYPE_PARTNER;
+                                    } else {
+                                        html += '<span style="margin:0px;  border-right:1px solid white;" class="ahf_greenbox_p03" id="ahf_doctype_state">'+docTypeState+'</span>';
+                                    }
+                                }
+
+                                descrItemValue.html(html);
+                            }
+                        break;
+                        case 'Highlights:':
+                            descrItemValue = jQuery(descrItems[i]).find('span');
+                            if (descrItemValue.length) {
+                                for (var j=0; j<descrItemValue.length; j++) {
+                                    var hl = jQuery(descrItemValue[j]).text().trim();
+                                    switch(hl) {
+                                        default:
+                                            jQuery(descrItemValue[j]).addClass('ahf_redbox_p35');
+                                        break;
+                                        case 'Run and Drive':
+                                            jQuery(descrItemValue[j]).addClass('ahf_greenbox_p35');
+                                        break;
+                                        case 'Donated Vehicle':
+                                            jQuery(descrItemValue[j]).addClass('ahf_bluebox_p35');
+                                        break;
+                                    }
+                                }
+                            }
+                        break;
+                        case 'Sale Status:':
+                            descrItemValue = jQuery(descrItems[i]).find('span').first();
+                            if (descrItemValue.length) {
+                                if (descrItemValue.text().trim() == 'Pure Sale') {
+                                    descrItemValue.addClass('ahf_greenbox_p35');
+                                } else if (descrItemValue.text().trim() == 'Minimum Bid') {
+                                    descrItemValue.addClass('ahf_orangebox_p35');
+                                } else {
+                                    descrItemValue.addClass('ahf_redbox_p35');
+                                }
+                            }
+                        break;
+
                         case 'Transaction Fee:':
                             descrItemValue = jQuery(descrItems[i]).find('span').first();
                             if (descrItemValue.length) {
                                 transactionFee = +descrItemValue.text().replace(/[^0-9]+/g,'');
-                                brokerFeeCorrection = brokerFee - transactionFee;
+                                switch (brokerFeeCalcType) {
+                                    case BROKER_FEE_CALC_TYPE_PARTNER:
+                                        brokerFeeCorrection = partnerBrokerFixedFee;
+                                    break;
+                                    case BROKER_FEE_CALC_TYPE_EXTERNAL:
+                                        brokerFeeCorrection = externalBrokerFixedFee - transactionFee;
+                                    break;
+                                }
                             }
                         break;
                         case 'Current Bid:':
@@ -118,10 +248,12 @@
                                     var currentBid = +descrItemValue.text().replace(/[^0-9]+/g,'');
                                     if (currentBid > 0) {
                                         var erv_cb = Math.round(currentBid*100/erv);
-                                        if (erv_cb>30) {
-                                           descrItemValue.append(' &nbsp; <span style="display:inline-block; background-color:red; color:white; padding:0 3px;">'+erv_cb+'%</span>');
+                                        if (erv_cb<=30) {
+                                           descrItemValue.append(' &nbsp; <span class="ahf_greenbox_p03">'+erv_cb+'%</span>');
+                                        } else if (erv_cb<=40) {
+                                           descrItemValue.append(' &nbsp; <span class="ahf_orangebox_p03">'+erv_cb+'%</span>');
                                         } else {
-                                           descrItemValue.append(' &nbsp; <span style="display:inline-block; background-color:green; color:white; padding:0 3px;">'+erv_cb+'%</span>');
+                                            descrItemValue.append(' &nbsp; <span class="ahf_redbox_p03">'+erv_cb+'%</span>');
                                         }
                                     }
                                 }
@@ -134,10 +266,17 @@
                                     var currentBid = +descrItemValue.text().replace(/[^0-9]+/g,'');
                                     if (currentBid > 0) {
                                         var erv_cb = Math.round(currentBid*100/erv);
-                                        if (erv_cb>30) {
-                                           descrItemValue.append(' &nbsp; <span style="display:inline-block; background-color:red; color:white; padding:0 3px; margin-right:0px;">'+erv_cb+'%</span>');
-                                        } else {
-                                           descrItemValue.append(' &nbsp; <span style="display:inline-block; background-color:green; color:white; padding:0 3px; margin-right:0px;">'+erv_cb+'%</span>');
+                                        if (erv_cb<=30) {
+                                           descrItemValue.append(' &nbsp; <span style="margin:0px;" class="ahf_greenbox_p03">'+erv_cb+'%</span>');
+                                        } else if (erv_cb<=40) {
+                                           descrItemValue.append(' &nbsp; <span style="margin:0px;" class="ahf_orangebox_p03">'+erv_cb+'%</span>');
+                                        }else {
+                                           descrItemValue.append(' &nbsp; <span style="margin:0px;" class="ahf_redbox_p03">'+erv_cb+'%</span>');
+                                        }
+
+                                        var soldEl = jQuery('div.sold-bid div.sold').first();
+                                        if (soldEl.length) {
+                                            soldEl.html(soldEl.text() + ' &rarr; ' + currentBid + '$ = ' + erv_cb + '%');
                                         }
                                     }
                                 }
@@ -146,36 +285,98 @@
                         case 'Transmission:':
                             descrItemValue = jQuery(descrItems[i]).find('span.lot-details-desc').first();
                             if (descrItemValue.length) {
-                                descrItemValue.css('color', 'white').css('padding', '3px 5px');
-                                if (descrItemValue.text() == 'AUTOMATIC') {
-                                    descrItemValue.css('background-color', 'green');
+                                if (jQuery.inArray(descrItemValue.text().trim(), goodTransmissions) > -1) {
+                                    descrItemValue.addClass('ahf_greenbox_p35');
                                 } else {
-                                    descrItemValue.css('background-color', 'red');
+                                    if (descrItemValue.text().trim() == '') descrItemValue.html('N/A');
+                                    descrItemValue.addClass('ahf_redbox_p35');
                                 }
                             }
                         break;
-
+                        case 'Drive:':
+                            descrItemValue = jQuery(descrItems[i]).find('span.lot-details-desc').first();
+                            if (descrItemValue.length) {
+                                if (jQuery.inArray(descrItemValue.text().trim(), goodWheelDrives) > -1) {
+                                    descrItemValue.addClass('ahf_greenbox_p35');
+                                } else {
+                                    if (descrItemValue.text().trim() == '') descrItemValue.html('N/A');
+                                    descrItemValue.addClass('ahf_redbox_p35');
+                                }
+                            }
+                        break;
+                        case 'Fuel:':
+                            descrItemValue = jQuery(descrItems[i]).find('span.lot-details-desc').first();
+                            if (descrItemValue.length) {
+                                if (jQuery.inArray(descrItemValue.text().trim(), goodFuels) > -1) {
+                                    descrItemValue.addClass('ahf_greenbox_p35');
+                                } else {
+                                    if (descrItemValue.text().trim() == '') descrItemValue.html('N/A');
+                                    descrItemValue.addClass('ahf_redbox_p35');
+                                }
+                            }
+                        break;
+                        case 'Keys:':
+                            descrItemValue = jQuery(descrItems[i]).find('span.lot-details-desc').first();
+                            if (descrItemValue.length) {
+                                if (descrItemValue.text().trim() == 'YES') {
+                                    descrItemValue.addClass('ahf_greenbox_p35');
+                                } else {
+                                    if (descrItemValue.text().trim() == '') descrItemValue.html('N/A');
+                                    descrItemValue.addClass('ahf_redbox_p35');
+                                }
+                            }
+                        break;
                         case 'Engine Type:':
                             descrItemValue = jQuery(descrItems[i]).find('span').first();
                             if (descrItemValue.length) {
-                                descrItemValue.css('color', 'white').css('padding', '3px 5px');
                                 var engineVol = parseFloat(descrItemValue.text().trim().replace(/\s.+$/g,'').replace(/[^0-9.,]+/g,'').replace(',','.'))*1000;
                                 if ( engineVol > 1800 && engineVol <= 3000) {
-                                    descrItemValue.css('background-color', 'green');
+                                    descrItemValue.addClass('ahf_greenbox_p35');
                                 } else {
-                                    descrItemValue.css('background-color', 'red');
+                                    descrItemValue.addClass('ahf_redbox_p35');
                                 }
                             }
                         break;
                         case 'Sale Date:':
-                            descrItemValue = jQuery(descrItems[i]).find('span').first();
-                            if (descrItemValue.length) {
-                                if (descrItemValue.text().trim() == 'Future') {
-                                    descrItemValue.css('color', 'white').css('padding', '3px 5px').css('background-color', 'red');
-                                    jQuery('div.bid-info-header').append('<div style="background-color:red; padding:5px; color:white; text-align: center; font-weight:bold;"> !!! = FUTURE AUCTION = !!! </div>');
+                            var soldEl = jQuery('div.sold-bid div.sold').first();
+                            if (!soldEl.length) {
+                                descrItemValue = jQuery(descrItems[i]).find('span').first();
+                                if (descrItemValue.length) {
+                                    if (descrItemValue.text().trim() == 'Future') {
+                                        descrItemValuecss('padding', '3px 5px').addClass('ahf_redbox');
+                                        jQuery('div.bid-info-header').append('<div style="padding:5px; text-align: center; font-weight:bold;" class="ahf_redbox"> !!! = FUTURE AUCTION = !!! </div>');
+                                    }
+                                    var auctionDateTime = descrItemValue.text().trim().replace("\n",' - ').replace(', 2018','').replace(' EEST','');
+                                    jQuery('.bid-info-content .lot-details-inner').prepend('<div style="padding:5px 10px; border-bottom:1px solid #E0E0E0;">'+auctionDateTime+' <span id="ahf_time_left" style="display:inline-block; float:right; margin:0;"></span></div>');
                                 }
                             }
-                            break;
+                        break;
+                        case 'Time Left:':
+                            descrItemValue = jQuery(descrItems[i]).find('span').first();
+                            if (descrItemValue.length) {
+                                var timeLeft = descrItemValue.text().replace('min','M').trim();
+                                if (timeLeft.indexOf('0D')>-1) {
+                                    jQuery('#ahf_time_left').html('<span style="color:red; margin:0;">'+timeLeft+'</span>');
+                                } else {
+                                    jQuery('#ahf_time_left').html(timeLeft);
+                                }
+                            }
+                        break;
+                        case 'Location:':
+                            descrItemValue = jQuery(descrItems[i]).find('span').first();
+                            if (descrItemValue.length) {
+                                var aucLocation = descrItemValue.text().trim();
+                                var aucLocationState = aucLocation.replace("\n",' ').trim().replace(/^([^-]+)-.+$/g,'$1').trim();
+                                if (docTypeState != aucLocationState) {
+                                    descrItemValue.addClass('ahf_redbox_p35');
+                                    var html = '';
+                                    html += '<div class="ahf_redbox ahf_blink" style="display:block; margin:5px 10px; padding:3px 5px; text-align:right;">';
+                                    html += 'Docs State differs from auction State: '+docTypeState+' <> '+aucLocationState;
+                                    html += '</div>';
+                                    jQuery('#ahf_doctype_state').closest('.details').append(html);
+                                }
+                            }
+                        break;
                     }
                 }
             }
@@ -202,7 +403,15 @@
                 var html = '';
                 html +='<hr>';
                 html +='<ul>';
-                html +='<li>+ '+brokerFeeCorrection.formatMoney(0, '.', ',')+' $ = Broker Fee ( '+brokerFee+'$ - '+transactionFee+'$ )</li>';
+
+                switch (brokerFeeCalcType) {
+                    case BROKER_FEE_CALC_TYPE_PARTNER:
+                        html +='<li>+ '+brokerFeeCorrection.formatMoney(0, '.', ',')+' $ = Partner Broker Fee</li>';
+                    break;
+                    case BROKER_FEE_CALC_TYPE_EXTERNAL:
+                        html +='<li>+ '+brokerFeeCorrection.formatMoney(0, '.', ',')+' $ = External Broker Fee ( '+externalBrokerFixedFee+'$ - '+transactionFee+'$ )</li>';
+                    break;
+                }
 
                 html +='<li style="margin-top:15px;">INVOICE SUM = '+invoiceTotal.formatMoney(0, '.', ',')+' $</li>';
                 html +='<li>+ '+portFee.formatMoney(0, '.', ',')+' $ = Port Fee</li>';
@@ -238,55 +447,40 @@
 
         var descrItem = null;
 
-        descrItem = $(".lot-details-inner").find("span[data-uname='DriverValue']").first();
-        if (descrItem.length) {
-          descrItem.css('color', 'white').css('padding', '3px 5px');
-          if (descrItem.text() == 'All wheel drive') {
-              descrItem.css('background-color', 'green');
-          } else {
-              descrItem.css('background-color', 'red');
-          }
-        }
-
-        descrItem = $(".lot-details-inner").find("span[data-uname='lotdetailFuelvalue']").first();
-        if (descrItem.length) {
-          descrItem.css('color', 'white').css('padding', '3px 5px');
-          if (descrItem.text() == 'GAS') {
-              descrItem.css('background-color', 'green');
-          } else {
-              descrItem.css('background-color', 'red');
-          }
-        }
-
-        descrItem = $(".lot-details-inner").find("span[data-uname='lotdetailKeyvalue']").first();
-        if (descrItem.length) {
-          descrItem.css('color', 'white').css('padding', '3px 5px');
-          if (descrItem.text() == 'YES') {
-              descrItem.css('background-color', 'green');
-          } else {
-              descrItem.css('background-color', 'red');
-          }
-        }
-
         descrItem = $(".lot-details-inner").find("span[data-uname='lotdetailOdometervalue']").first();
         if (descrItem.length) {
           var odoValue = descrItem.text().replace(/[^0-9]+/g,'');
           var odoKm = odoValue;
-          descrItem.css('color', 'white').css('padding', '3px 5px');
           descrItem.find('p').css('color', 'white');
           if (descrItem.text().indexOf('mi')>0) {
               odoKm = Math.round(odoValue*1.6);
               descrItem.append('<div style="padding-right:15px; font-weight:normal;">'+odoKm.toLocaleString('en')+' km</div>')
           }
-          if (odoKm > 1 && odoKm<150000) {
-              descrItem.css('background-color', 'green');
+
+          if (odoKm < 1)   {
+              descrItem.addClass('ahf_redbox_p35');
+          } else if (odoKm < odometrHLLimit_1) {
+              descrItem.addClass('ahf_greenbox_p35');
+          } else if (odoKm < odometrHLLimit_2) {
+              descrItem.addClass('ahf_orangebox_p35');
           } else {
-              descrItem.css('background-color', 'red');
+              descrItem.addClass('ahf_redbox_p35');
           }
         }
 
-
-
+        var sellerEl = jQuery('#cfw-seller');
+        if (sellerEl.length) {
+            if (jQuery('#cfw-seller-ok').is(":visible")) {
+                var sellerName = sellerEl.text().trim();
+                if (sellerName.match(/\s(LLC|INC)[. ]+?$/)) {
+                    sellerEl.parent().addClass('ahf_orangebox').addClass('ahf_blink');
+                } else {
+                    sellerEl.parent().addClass('ahf_greenbox');
+                }
+            } else if (jQuery('#cfw-seller-warn').is(":visible")) {
+                sellerEl.parent().addClass('ahf_redbox').addClass('ahf_blink');
+            }
+        }
 
     }, 5000);
 })();
