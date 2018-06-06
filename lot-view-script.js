@@ -123,8 +123,11 @@
             'CERTIFICATE OF TITLE',
             'CLEAN TITLE',
             'SALVAGE TITLE',
+            'SALVAGE VEHICLE TITLE',
             'MV-907A SALVAGE CERTIFICATE',
             'SALVAGE CERTIFICATE',
+            'SALVAGE CERTIFICATE OF A VEHIC',
+            'CERTIFICATE OF SALVAGE',
             'CERT OF TITLE-SALVAGE TITLE',
             'CERT OF TITLE-SALVAGE',
             'CERT OF TITLE - SALVAGE',
@@ -374,7 +377,10 @@
                                     descrItemValue.addClass('ahf_redbox_p35');
                                     var html = '';
                                     html += '<div class="ahf_redbox ahf_blink" style="display:block; margin:5px 10px; padding:3px 5px; text-align:right;">';
-                                    html += 'Docs State differs from auction State: '+docTypeState+' <> '+aucLocationState;
+                                    html += 'Docs state ';
+                                    html += '<a href="https://www.google.com.ua/maps/place/'+docTypeState+',+USA/" target="_blank" title="Find via Google maps" style="color:yellow">'+docTypeState+'</a>';
+                                    html += ' differs from auction state ';
+                                    html += '<a href="https://www.google.com.ua/maps/place/'+aucLocationState+',+USA/" target="_blank" title="Find via Google maps" style="color:yellow">'+aucLocationState+'</a>';
                                     html += '</div>';
                                     jQuery('#ahf_doctype_state').closest('.details').append(html);
                                 }
@@ -384,8 +390,6 @@
                 }
             }
         }
-
-
 
         var grandTotal2El = jQuery('<div id="cfw-grand-total-2" style="font-weight:normal"></div>');
         jQuery('#cfw-grand-total').parent().append(grandTotal2El)
@@ -486,6 +490,8 @@
                 sellerEl.parent().addClass('ahf_redbox').addClass('ahf_blink');
             }
         }
+
+        jQuery('#cfw-land-select').attr('size', jQuery('#cfw-land-select option').length).css('height', 'auto');
 
     }, 5000);
 })();
