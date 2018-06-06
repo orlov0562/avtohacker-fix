@@ -30,22 +30,22 @@
     additionalCss += ' .ahf_orangebox {background-color:#ff8400; color:black;}';
     additionalCss += ' .ahf_greenbox {background-color:green; color:white;}';
     additionalCss += ' .ahf_bluebox {background-color:#00ceff; color:white;}';
-    additionalCss += ' .ahf_redbox a, .ahf_greenbox a, .ahf_bluebox a {color:white; opacity:0.5;}';
-    additionalCss += ' .ahf_redbox a:hover, .ahf_greenbox a:hover, .ahf_bluebox a:hover {color:yellow; opacity:1;}';
+    additionalCss += ' .ahf_redbox a i.fa, .ahf_orangebox a i.fa, .ahf_greenbox a i.fa, .ahf_bluebox a i.fa {color:white; opacity:0.5;}';
+    additionalCss += ' .ahf_redbox a:hover i.fa, .ahf_orangebox a:hover i.fa, .ahf_greenbox a:hover i.fa, .ahf_bluebox a:hover i.fa {color:white; opacity:0.5;}';
 
     additionalCss += ' .ahf_redbox_p35 {display:inline-block; background-color:red; color:white; padding: 3px 5px !important;}';
     additionalCss += ' .ahf_orangebox_p35 {display:inline-block; background-color:#ff8400; color:black; padding: 3px 5px !important;}';
     additionalCss += ' .ahf_greenbox_p35 {display:inline-block; background-color:green; color:white; padding: 3px 5px !important;}';
     additionalCss += ' .ahf_bluebox_p35 {display:inline-block; background-color:#00ceff; color:white; padding: 3px 5px !important;}';
-    additionalCss += ' .ahf_redbox_p35 a, .ahf_greenbox_p35 a, .ahf_bluebox_p35 a {color:white; opacity:0.5;}';
-    additionalCss += ' .ahf_redbox_p35 a:hover, .ahf_greenbox_p35 a:hover, .ahf_bluebox_p35 a:hover {color:yellow; opacity:1;}';
+    additionalCss += ' .ahf_redbox_p35 a i.fa, .ahf_orangebox_p35 a i.fa, .ahf_greenbox_p35 a i.fa, .ahf_bluebox_p35 a i.fa {color:white; opacity:0.5;}';
+    additionalCss += ' .ahf_redbox_p35 a:hover i.fa, .ahf_orangebox_p35 a:hover i.fa, .ahf_greenbox_p35 a:hover i.fa, .ahf_bluebox_p35 a:hover i.fa {color:white; opacity:0.5;}';
 
     additionalCss += ' .ahf_redbox_p03 {display:inline-block; background-color:red; color:white; padding: 0px 3px !important;}';
     additionalCss += ' .ahf_orangebox_p03 {display:inline-block; background-color:#ff8400; color:black; padding: 0px 3px !important;}';
     additionalCss += ' .ahf_greenbox_p03 {display:inline-block; background-color:green; color:white; padding: 0px 3px !important;}';
     additionalCss += ' .ahf_bluebox_p03 {display:inline-block; background-color:#00ceff; color:white; padding: 0px 3px !important;}';
-    additionalCss += ' .ahf_redbox_p03 a, .ahf_greenbox_p03 a, .ahf_bluebox_p03 a {color:white; opacity:0.5;}';
-    additionalCss += ' .ahf_redbox_p03 a:hover, .ahf_greenbox_p03 a:hover, .ahf_bluebox_p03 a:hover {color:yellow; opacity:1;}';
+    additionalCss += ' .ahf_redbox_p03 a i.fa, .ahf_orangebox_p03 a i.fa, .ahf_greenbox_p03 a i.fa, .ahf_bluebox_p03 a i.fa {color:white; opacity:0.5;}';
+    additionalCss += ' .ahf_redbox_p03 a:hover i.fa, .ahf_orangebox_p03 a:hover i.fa, .ahf_greenbox_p03 a:hover i.fa, .ahf_bluebox_p03 a:hover i.fa {color:white; opacity:0.5;}';
 
     additionalCss += ' .ahf_erv_perc_item {display:inline-block; width: 125px; font-weight:normal; margin:0px;}';
 
@@ -124,7 +124,10 @@
             'CLEAN TITLE',
             'SALVAGE TITLE',
             'MV-907A SALVAGE CERTIFICATE',
+            'SALVAGE CERTIFICATE',
             'CERT OF TITLE-SALVAGE TITLE',
+            'CERT OF TITLE-SALVAGE',
+            'CERT OF TITLE - SALVAGE',
             'DEALER ONLY CLEAN TITLE'
         ];
         var docTypeState = 'N/A';
@@ -343,7 +346,7 @@
                                 descrItemValue = jQuery(descrItems[i]).find('span').first();
                                 if (descrItemValue.length) {
                                     if (descrItemValue.text().trim() == 'Future') {
-                                        descrItemValuecss('padding', '3px 5px').addClass('ahf_redbox');
+                                        descrItemValue.css('padding', '3px 5px').addClass('ahf_redbox');
                                         jQuery('div.bid-info-header').append('<div style="padding:5px; text-align: center; font-weight:bold;" class="ahf_redbox"> !!! = FUTURE AUCTION = !!! </div>');
                                     }
                                     var auctionDateTime = descrItemValue.text().trim().replace("\n",' - ').replace(', 2018','').replace(' EEST','');
@@ -451,19 +454,21 @@
         if (descrItem.length) {
           var odoValue = descrItem.text().replace(/[^0-9]+/g,'');
           var odoKm = odoValue;
-          descrItem.find('p').css('color', 'white');
           if (descrItem.text().indexOf('mi')>0) {
               odoKm = Math.round(odoValue*1.6);
               descrItem.append('<div style="padding-right:15px; font-weight:normal;">'+odoKm.toLocaleString('en')+' km</div>')
           }
 
           if (odoKm < 1)   {
+              descrItem.find('p').css('color', 'white');
               descrItem.addClass('ahf_redbox_p35');
           } else if (odoKm < odometrHLLimit_1) {
+              descrItem.find('p').css('color', 'white');
               descrItem.addClass('ahf_greenbox_p35');
           } else if (odoKm < odometrHLLimit_2) {
               descrItem.addClass('ahf_orangebox_p35');
           } else {
+              descrItem.find('p').css('color', 'white');
               descrItem.addClass('ahf_redbox_p35');
           }
         }
